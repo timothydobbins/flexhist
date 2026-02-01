@@ -11,7 +11,13 @@ type: R
 description: >-
   More about what it does (maybe more than one line) Use four spaces when
   indenting paragraphs within the Description.
-analyses: []
+analyses:
+  - title: 2 sample t-test
+    name: ttest
+    ns: flexhist
+    category: analyses
+    menuGroup: flexhist
+    menuTitle: 2 sample t-test
 usesNative: true
 minApp: 1.0.8
 

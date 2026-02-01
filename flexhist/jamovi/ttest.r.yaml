@@ -1,0 +1,35 @@
+---
+name:  ttest
+title: 2 sample t-test
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: 2 sample t-test
+      type:  Preformatted
+
+    - name:  ttest
+      title: Independent Samples T-Test
+      type: Table
+      rows:  1
+      columns:
+        - name: var
+          title: ''
+          type: text
+        - name: t
+          type: number
+        - name: df
+          type: integer
+        - name: p
+          type: number
+          format: zto,pvalue
+
+    - name: plot
+      title: Histogram
+      type: Image
+      width:  400
+      height: 300
+      renderFun: .plot
+
+...
+
