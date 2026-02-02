@@ -18,6 +18,12 @@ analyses:
     category: analyses
     menuGroup: flexhist
     menuTitle: 2 sample t-test
+  - title: Flexible histogram
+    name: flexhist
+    ns: flexhist
+    category: analyses
+    menuGroup: flexhist
+    menuTitle: Flexible histogram
 usesNative: true
 minApp: 1.0.8
 

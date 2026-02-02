@@ -1,0 +1,11 @@
+---
+name:  flexhist
+title: Flexible histogram
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: Flexible histogram
+      type:  Preformatted
+
+...
