@@ -6,65 +6,10 @@ flexhistOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            var = NULL,
-            group = NULL,
-            flipAxes = FALSE,
-            bins = TRUE,
-            binWidthType = "auto",
+            dep = NULL,
+            binWidthType = "default",
             binWidth = 0.5,
-            binLowerLimit = NULL,
-            binOpacity = 1,
-            line = FALSE,
-            lineSize = 0.5,
-            density = FALSE,
-            densityOpacity = 0.2,
-            densityLineSize = 0.5,
-            width = 500,
-            height = 500,
-            title = "",
-            titleAlign = "center",
-            titleFontSize = 16,
-            titleFontFace = "plain",
-            subtitle = "",
-            subtitleAlign = "left",
-            subtitleFontSize = 16,
-            subtitleFontFace = "plain",
-            caption = "",
-            captionAlign = "right",
-            captionFontSize = 12,
-            captionFontFace = "plain",
-            xLabel = "",
-            xLabelAlign = "center",
-            xLabelFontSize = 16,
-            xLabelFontFace = "plain",
-            yLabel = "",
-            yLabelAlign = "center",
-            yLabelFontSize = 16,
-            yLabelFontFace = "plain",
-            titleType = "title",
-            yAxisLabelFontSize = 12,
-            yAxisLabelRotation = 0,
-            yAxisRangeType = "auto",
-            yAxisRangeMin = 0,
-            yAxisRangeMax = 10,
-            xAxisLabelFontSize = 12,
-            xAxisLabelRotation = 0,
-            xAxisRangeType = "auto",
-            xAxisRangeMin = 0,
-            xAxisRangeMax = 10,
-            legendTitle = "",
-            legendTitleFontSize = 16,
-            legendTitleFontFace = "plain",
-            legendLabelFontSize = 16,
-            legendLabelFontFace = "plain",
-            legendKeyWidth = 0.6,
-            legendKeyHeight = 0.6,
-            legenPositionType = "outside",
-            legendPosition = "right",
-            legendJustification = "center",
-            legendPositionX = 0.8,
-            legendPositionY = 0.5,
-            legendDirection = "vertical", ...) {
+            binLowerLimit = NULL, ...) {
 
             super$initialize(
                 package="flexhist",
@@ -72,37 +17,17 @@ flexhistOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
-            private$..var <- jmvcore::OptionVariable$new(
-                "var",
-                var,
-                suggested=list(
-                    "continuous"),
-                permitted=list(
-                    "numeric"))
-            private$..group <- jmvcore::OptionVariable$new(
-                "group",
-                group,
-                suggested=list(
-                    "nominal"),
-                permitted=list(
-                    "factor"),
-                default=NULL)
-            private$..flipAxes <- jmvcore::OptionBool$new(
-                "flipAxes",
-                flipAxes,
-                default=FALSE)
-            private$..bins <- jmvcore::OptionBool$new(
-                "bins",
-                bins,
-                default=TRUE)
+            private$..dep <- jmvcore::OptionVariable$new(
+                "dep",
+                dep)
             private$..binWidthType <- jmvcore::OptionList$new(
                 "binWidthType",
                 binWidthType,
                 options=list(
-                    "auto",
+                    "default",
                     "manual",
                     "sturges"),
-                default="auto")
+                default="default")
             private$..binWidth <- jmvcore::OptionNumber$new(
                 "binWidth",
                 binWidth,
@@ -111,501 +36,29 @@ flexhistOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..binLowerLimit <- jmvcore::OptionNumber$new(
                 "binLowerLimit",
                 binLowerLimit)
-            private$..binOpacity <- jmvcore::OptionNumber$new(
-                "binOpacity",
-                binOpacity,
-                default=1,
-                min=0,
-                max=1)
-            private$..line <- jmvcore::OptionBool$new(
-                "line",
-                line,
-                default=FALSE)
-            private$..lineSize <- jmvcore::OptionNumber$new(
-                "lineSize",
-                lineSize,
-                default=0.5)
-            private$..density <- jmvcore::OptionBool$new(
-                "density",
-                density,
-                default=FALSE)
-            private$..densityOpacity <- jmvcore::OptionNumber$new(
-                "densityOpacity",
-                densityOpacity,
-                default=0.2,
-                min=0,
-                max=1)
-            private$..densityLineSize <- jmvcore::OptionNumber$new(
-                "densityLineSize",
-                densityLineSize,
-                default=0.5)
-            private$..width <- jmvcore::OptionNumber$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionNumber$new(
-                "height",
-                height,
-                default=500)
-            private$..title <- jmvcore::OptionString$new(
-                "title",
-                title,
-                default="")
-            private$..titleAlign <- jmvcore::OptionList$new(
-                "titleAlign",
-                titleAlign,
-                options=list(
-                    "left",
-                    "center",
-                    "right"),
-                default="center")
-            private$..titleFontSize <- jmvcore::OptionNumber$new(
-                "titleFontSize",
-                titleFontSize,
-                default=16)
-            private$..titleFontFace <- jmvcore::OptionList$new(
-                "titleFontFace",
-                titleFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..subtitle <- jmvcore::OptionString$new(
-                "subtitle",
-                subtitle,
-                default="")
-            private$..subtitleAlign <- jmvcore::OptionList$new(
-                "subtitleAlign",
-                subtitleAlign,
-                options=list(
-                    "left",
-                    "center",
-                    "right"),
-                default="left")
-            private$..subtitleFontSize <- jmvcore::OptionNumber$new(
-                "subtitleFontSize",
-                subtitleFontSize,
-                default=16)
-            private$..subtitleFontFace <- jmvcore::OptionList$new(
-                "subtitleFontFace",
-                subtitleFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..caption <- jmvcore::OptionString$new(
-                "caption",
-                caption,
-                default="")
-            private$..captionAlign <- jmvcore::OptionList$new(
-                "captionAlign",
-                captionAlign,
-                options=list(
-                    "left",
-                    "center",
-                    "right"),
-                default="right")
-            private$..captionFontSize <- jmvcore::OptionNumber$new(
-                "captionFontSize",
-                captionFontSize,
-                default=12)
-            private$..captionFontFace <- jmvcore::OptionList$new(
-                "captionFontFace",
-                captionFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..xLabel <- jmvcore::OptionString$new(
-                "xLabel",
-                xLabel,
-                default="")
-            private$..xLabelAlign <- jmvcore::OptionList$new(
-                "xLabelAlign",
-                xLabelAlign,
-                options=list(
-                    "left",
-                    "center",
-                    "right"),
-                default="center")
-            private$..xLabelFontSize <- jmvcore::OptionNumber$new(
-                "xLabelFontSize",
-                xLabelFontSize,
-                default=16)
-            private$..xLabelFontFace <- jmvcore::OptionList$new(
-                "xLabelFontFace",
-                xLabelFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..yLabel <- jmvcore::OptionString$new(
-                "yLabel",
-                yLabel,
-                default="")
-            private$..yLabelAlign <- jmvcore::OptionList$new(
-                "yLabelAlign",
-                yLabelAlign,
-                options=list(
-                    "left",
-                    "center",
-                    "right"),
-                default="center")
-            private$..yLabelFontSize <- jmvcore::OptionNumber$new(
-                "yLabelFontSize",
-                yLabelFontSize,
-                default=16)
-            private$..yLabelFontFace <- jmvcore::OptionList$new(
-                "yLabelFontFace",
-                yLabelFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..titleType <- jmvcore::OptionList$new(
-                "titleType",
-                titleType,
-                options=list(
-                    "title",
-                    "subtitle",
-                    "caption",
-                    "xTitle",
-                    "yTitle"),
-                default="title")
-            private$..yAxisLabelFontSize <- jmvcore::OptionNumber$new(
-                "yAxisLabelFontSize",
-                yAxisLabelFontSize,
-                default=12)
-            private$..yAxisLabelRotation <- jmvcore::OptionNumber$new(
-                "yAxisLabelRotation",
-                yAxisLabelRotation,
-                default=0,
-                min=0,
-                max=360)
-            private$..yAxisRangeType <- jmvcore::OptionList$new(
-                "yAxisRangeType",
-                yAxisRangeType,
-                options=list(
-                    "auto",
-                    "manual"),
-                default="auto")
-            private$..yAxisRangeMin <- jmvcore::OptionNumber$new(
-                "yAxisRangeMin",
-                yAxisRangeMin,
-                default=0)
-            private$..yAxisRangeMax <- jmvcore::OptionNumber$new(
-                "yAxisRangeMax",
-                yAxisRangeMax,
-                default=10)
-            private$..xAxisLabelFontSize <- jmvcore::OptionNumber$new(
-                "xAxisLabelFontSize",
-                xAxisLabelFontSize,
-                default=12)
-            private$..xAxisLabelRotation <- jmvcore::OptionNumber$new(
-                "xAxisLabelRotation",
-                xAxisLabelRotation,
-                default=0,
-                min=0,
-                max=360)
-            private$..xAxisRangeType <- jmvcore::OptionList$new(
-                "xAxisRangeType",
-                xAxisRangeType,
-                options=list(
-                    "auto",
-                    "manual"),
-                default="auto")
-            private$..xAxisRangeMin <- jmvcore::OptionNumber$new(
-                "xAxisRangeMin",
-                xAxisRangeMin,
-                default=0)
-            private$..xAxisRangeMax <- jmvcore::OptionNumber$new(
-                "xAxisRangeMax",
-                xAxisRangeMax,
-                default=10)
-            private$..legendTitle <- jmvcore::OptionString$new(
-                "legendTitle",
-                legendTitle,
-                default="")
-            private$..legendTitleFontSize <- jmvcore::OptionNumber$new(
-                "legendTitleFontSize",
-                legendTitleFontSize,
-                default=16)
-            private$..legendTitleFontFace <- jmvcore::OptionList$new(
-                "legendTitleFontFace",
-                legendTitleFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..legendLabelFontSize <- jmvcore::OptionNumber$new(
-                "legendLabelFontSize",
-                legendLabelFontSize,
-                default=16)
-            private$..legendLabelFontFace <- jmvcore::OptionList$new(
-                "legendLabelFontFace",
-                legendLabelFontFace,
-                options=list(
-                    "plain",
-                    "bold",
-                    "italic",
-                    "bold-italic"),
-                default="plain")
-            private$..legendKeyWidth <- jmvcore::OptionNumber$new(
-                "legendKeyWidth",
-                legendKeyWidth,
-                default=0.6,
-                min=0)
-            private$..legendKeyHeight <- jmvcore::OptionNumber$new(
-                "legendKeyHeight",
-                legendKeyHeight,
-                default=0.6,
-                min=0)
-            private$..legenPositionType <- jmvcore::OptionList$new(
-                "legenPositionType",
-                legenPositionType,
-                options=list(
-                    "outside",
-                    "inside",
-                    "hide"),
-                default="outside")
-            private$..legendPosition <- jmvcore::OptionList$new(
-                "legendPosition",
-                legendPosition,
-                options=list(
-                    "top",
-                    "right",
-                    "bottom",
-                    "left"),
-                default="right")
-            private$..legendJustification <- jmvcore::OptionList$new(
-                "legendJustification",
-                legendJustification,
-                options=list(
-                    "center",
-                    "top",
-                    "right",
-                    "bottom",
-                    "left"),
-                default="center")
-            private$..legendPositionX <- jmvcore::OptionNumber$new(
-                "legendPositionX",
-                legendPositionX,
-                default=0.8,
-                min=0,
-                max=1)
-            private$..legendPositionY <- jmvcore::OptionNumber$new(
-                "legendPositionY",
-                legendPositionY,
-                default=0.5,
-                min=0,
-                max=1)
-            private$..legendDirection <- jmvcore::OptionList$new(
-                "legendDirection",
-                legendDirection,
-                options=list(
-                    "horizontal",
-                    "vertical"),
-                default="vertical")
 
-            self$.addOption(private$..var)
-            self$.addOption(private$..group)
-            self$.addOption(private$..flipAxes)
-            self$.addOption(private$..bins)
+            self$.addOption(private$..dep)
             self$.addOption(private$..binWidthType)
             self$.addOption(private$..binWidth)
             self$.addOption(private$..binLowerLimit)
-            self$.addOption(private$..binOpacity)
-            self$.addOption(private$..line)
-            self$.addOption(private$..lineSize)
-            self$.addOption(private$..density)
-            self$.addOption(private$..densityOpacity)
-            self$.addOption(private$..densityLineSize)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
-            self$.addOption(private$..title)
-            self$.addOption(private$..titleAlign)
-            self$.addOption(private$..titleFontSize)
-            self$.addOption(private$..titleFontFace)
-            self$.addOption(private$..subtitle)
-            self$.addOption(private$..subtitleAlign)
-            self$.addOption(private$..subtitleFontSize)
-            self$.addOption(private$..subtitleFontFace)
-            self$.addOption(private$..caption)
-            self$.addOption(private$..captionAlign)
-            self$.addOption(private$..captionFontSize)
-            self$.addOption(private$..captionFontFace)
-            self$.addOption(private$..xLabel)
-            self$.addOption(private$..xLabelAlign)
-            self$.addOption(private$..xLabelFontSize)
-            self$.addOption(private$..xLabelFontFace)
-            self$.addOption(private$..yLabel)
-            self$.addOption(private$..yLabelAlign)
-            self$.addOption(private$..yLabelFontSize)
-            self$.addOption(private$..yLabelFontFace)
-            self$.addOption(private$..titleType)
-            self$.addOption(private$..yAxisLabelFontSize)
-            self$.addOption(private$..yAxisLabelRotation)
-            self$.addOption(private$..yAxisRangeType)
-            self$.addOption(private$..yAxisRangeMin)
-            self$.addOption(private$..yAxisRangeMax)
-            self$.addOption(private$..xAxisLabelFontSize)
-            self$.addOption(private$..xAxisLabelRotation)
-            self$.addOption(private$..xAxisRangeType)
-            self$.addOption(private$..xAxisRangeMin)
-            self$.addOption(private$..xAxisRangeMax)
-            self$.addOption(private$..legendTitle)
-            self$.addOption(private$..legendTitleFontSize)
-            self$.addOption(private$..legendTitleFontFace)
-            self$.addOption(private$..legendLabelFontSize)
-            self$.addOption(private$..legendLabelFontFace)
-            self$.addOption(private$..legendKeyWidth)
-            self$.addOption(private$..legendKeyHeight)
-            self$.addOption(private$..legenPositionType)
-            self$.addOption(private$..legendPosition)
-            self$.addOption(private$..legendJustification)
-            self$.addOption(private$..legendPositionX)
-            self$.addOption(private$..legendPositionY)
-            self$.addOption(private$..legendDirection)
         }),
     active = list(
-        var = function() private$..var$value,
-        group = function() private$..group$value,
-        flipAxes = function() private$..flipAxes$value,
-        bins = function() private$..bins$value,
+        dep = function() private$..dep$value,
         binWidthType = function() private$..binWidthType$value,
         binWidth = function() private$..binWidth$value,
-        binLowerLimit = function() private$..binLowerLimit$value,
-        binOpacity = function() private$..binOpacity$value,
-        line = function() private$..line$value,
-        lineSize = function() private$..lineSize$value,
-        density = function() private$..density$value,
-        densityOpacity = function() private$..densityOpacity$value,
-        densityLineSize = function() private$..densityLineSize$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
-        title = function() private$..title$value,
-        titleAlign = function() private$..titleAlign$value,
-        titleFontSize = function() private$..titleFontSize$value,
-        titleFontFace = function() private$..titleFontFace$value,
-        subtitle = function() private$..subtitle$value,
-        subtitleAlign = function() private$..subtitleAlign$value,
-        subtitleFontSize = function() private$..subtitleFontSize$value,
-        subtitleFontFace = function() private$..subtitleFontFace$value,
-        caption = function() private$..caption$value,
-        captionAlign = function() private$..captionAlign$value,
-        captionFontSize = function() private$..captionFontSize$value,
-        captionFontFace = function() private$..captionFontFace$value,
-        xLabel = function() private$..xLabel$value,
-        xLabelAlign = function() private$..xLabelAlign$value,
-        xLabelFontSize = function() private$..xLabelFontSize$value,
-        xLabelFontFace = function() private$..xLabelFontFace$value,
-        yLabel = function() private$..yLabel$value,
-        yLabelAlign = function() private$..yLabelAlign$value,
-        yLabelFontSize = function() private$..yLabelFontSize$value,
-        yLabelFontFace = function() private$..yLabelFontFace$value,
-        titleType = function() private$..titleType$value,
-        yAxisLabelFontSize = function() private$..yAxisLabelFontSize$value,
-        yAxisLabelRotation = function() private$..yAxisLabelRotation$value,
-        yAxisRangeType = function() private$..yAxisRangeType$value,
-        yAxisRangeMin = function() private$..yAxisRangeMin$value,
-        yAxisRangeMax = function() private$..yAxisRangeMax$value,
-        xAxisLabelFontSize = function() private$..xAxisLabelFontSize$value,
-        xAxisLabelRotation = function() private$..xAxisLabelRotation$value,
-        xAxisRangeType = function() private$..xAxisRangeType$value,
-        xAxisRangeMin = function() private$..xAxisRangeMin$value,
-        xAxisRangeMax = function() private$..xAxisRangeMax$value,
-        legendTitle = function() private$..legendTitle$value,
-        legendTitleFontSize = function() private$..legendTitleFontSize$value,
-        legendTitleFontFace = function() private$..legendTitleFontFace$value,
-        legendLabelFontSize = function() private$..legendLabelFontSize$value,
-        legendLabelFontFace = function() private$..legendLabelFontFace$value,
-        legendKeyWidth = function() private$..legendKeyWidth$value,
-        legendKeyHeight = function() private$..legendKeyHeight$value,
-        legenPositionType = function() private$..legenPositionType$value,
-        legendPosition = function() private$..legendPosition$value,
-        legendJustification = function() private$..legendJustification$value,
-        legendPositionX = function() private$..legendPositionX$value,
-        legendPositionY = function() private$..legendPositionY$value,
-        legendDirection = function() private$..legendDirection$value),
+        binLowerLimit = function() private$..binLowerLimit$value),
     private = list(
-        ..var = NA,
-        ..group = NA,
-        ..flipAxes = NA,
-        ..bins = NA,
+        ..dep = NA,
         ..binWidthType = NA,
         ..binWidth = NA,
-        ..binLowerLimit = NA,
-        ..binOpacity = NA,
-        ..line = NA,
-        ..lineSize = NA,
-        ..density = NA,
-        ..densityOpacity = NA,
-        ..densityLineSize = NA,
-        ..width = NA,
-        ..height = NA,
-        ..title = NA,
-        ..titleAlign = NA,
-        ..titleFontSize = NA,
-        ..titleFontFace = NA,
-        ..subtitle = NA,
-        ..subtitleAlign = NA,
-        ..subtitleFontSize = NA,
-        ..subtitleFontFace = NA,
-        ..caption = NA,
-        ..captionAlign = NA,
-        ..captionFontSize = NA,
-        ..captionFontFace = NA,
-        ..xLabel = NA,
-        ..xLabelAlign = NA,
-        ..xLabelFontSize = NA,
-        ..xLabelFontFace = NA,
-        ..yLabel = NA,
-        ..yLabelAlign = NA,
-        ..yLabelFontSize = NA,
-        ..yLabelFontFace = NA,
-        ..titleType = NA,
-        ..yAxisLabelFontSize = NA,
-        ..yAxisLabelRotation = NA,
-        ..yAxisRangeType = NA,
-        ..yAxisRangeMin = NA,
-        ..yAxisRangeMax = NA,
-        ..xAxisLabelFontSize = NA,
-        ..xAxisLabelRotation = NA,
-        ..xAxisRangeType = NA,
-        ..xAxisRangeMin = NA,
-        ..xAxisRangeMax = NA,
-        ..legendTitle = NA,
-        ..legendTitleFontSize = NA,
-        ..legendTitleFontFace = NA,
-        ..legendLabelFontSize = NA,
-        ..legendLabelFontFace = NA,
-        ..legendKeyWidth = NA,
-        ..legendKeyHeight = NA,
-        ..legenPositionType = NA,
-        ..legendPosition = NA,
-        ..legendJustification = NA,
-        ..legendPositionX = NA,
-        ..legendPositionY = NA,
-        ..legendDirection = NA)
+        ..binLowerLimit = NA)
 )
 
 flexhistResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "flexhistResults",
     inherit = jmvcore::Group,
     active = list(
-        text = function() private$.items[["text"]]),
+        plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -613,10 +66,13 @@ flexhistResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="",
                 title="Flexible histogram")
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Image$new(
                 options=options,
-                name="text",
-                title="Flexible histogram"))}))
+                name="plot",
+                title="",
+                width=500,
+                height=500,
+                renderFun=".plot"))}))
 
 flexhistBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "flexhistBase",
@@ -643,206 +99,38 @@ flexhistBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' 
 #' @param data .
-#' @param var .
-#' @param group .
-#' @param flipAxes .
-#' @param bins .
+#' @param dep .
 #' @param binWidthType .
 #' @param binWidth .
 #' @param binLowerLimit .
-#' @param binOpacity .
-#' @param line .
-#' @param lineSize .
-#' @param density .
-#' @param densityOpacity .
-#' @param densityLineSize .
-#' @param width .
-#' @param height .
-#' @param title .
-#' @param titleAlign .
-#' @param titleFontSize .
-#' @param titleFontFace .
-#' @param subtitle .
-#' @param subtitleAlign .
-#' @param subtitleFontSize .
-#' @param subtitleFontFace .
-#' @param caption .
-#' @param captionAlign .
-#' @param captionFontSize .
-#' @param captionFontFace .
-#' @param xLabel .
-#' @param xLabelAlign .
-#' @param xLabelFontSize .
-#' @param xLabelFontFace .
-#' @param yLabel .
-#' @param yLabelAlign .
-#' @param yLabelFontSize .
-#' @param yLabelFontFace .
-#' @param titleType .
-#' @param yAxisLabelFontSize .
-#' @param yAxisLabelRotation .
-#' @param yAxisRangeType .
-#' @param yAxisRangeMin .
-#' @param yAxisRangeMax .
-#' @param xAxisLabelFontSize .
-#' @param xAxisLabelRotation .
-#' @param xAxisRangeType .
-#' @param xAxisRangeMin .
-#' @param xAxisRangeMax .
-#' @param legendTitle .
-#' @param legendTitleFontSize .
-#' @param legendTitleFontFace .
-#' @param legendLabelFontSize .
-#' @param legendLabelFontFace .
-#' @param legendKeyWidth .
-#' @param legendKeyHeight .
-#' @param legenPositionType .
-#' @param legendPosition .
-#' @param legendJustification .
-#' @param legendPositionX .
-#' @param legendPositionY .
-#' @param legendDirection .
 #' @return A results object containing:
 #' \tabular{llllll}{
-#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$plot} \tab \tab \tab \tab \tab an image containing the histogram \cr
 #' }
 #'
 #' @export
 flexhist <- function(
     data,
-    var,
-    group = NULL,
-    flipAxes = FALSE,
-    bins = TRUE,
-    binWidthType = "auto",
+    dep,
+    binWidthType = "default",
     binWidth = 0.5,
-    binLowerLimit,
-    binOpacity = 1,
-    line = FALSE,
-    lineSize = 0.5,
-    density = FALSE,
-    densityOpacity = 0.2,
-    densityLineSize = 0.5,
-    width = 500,
-    height = 500,
-    title = "",
-    titleAlign = "center",
-    titleFontSize = 16,
-    titleFontFace = "plain",
-    subtitle = "",
-    subtitleAlign = "left",
-    subtitleFontSize = 16,
-    subtitleFontFace = "plain",
-    caption = "",
-    captionAlign = "right",
-    captionFontSize = 12,
-    captionFontFace = "plain",
-    xLabel = "",
-    xLabelAlign = "center",
-    xLabelFontSize = 16,
-    xLabelFontFace = "plain",
-    yLabel = "",
-    yLabelAlign = "center",
-    yLabelFontSize = 16,
-    yLabelFontFace = "plain",
-    titleType = "title",
-    yAxisLabelFontSize = 12,
-    yAxisLabelRotation = 0,
-    yAxisRangeType = "auto",
-    yAxisRangeMin = 0,
-    yAxisRangeMax = 10,
-    xAxisLabelFontSize = 12,
-    xAxisLabelRotation = 0,
-    xAxisRangeType = "auto",
-    xAxisRangeMin = 0,
-    xAxisRangeMax = 10,
-    legendTitle = "",
-    legendTitleFontSize = 16,
-    legendTitleFontFace = "plain",
-    legendLabelFontSize = 16,
-    legendLabelFontFace = "plain",
-    legendKeyWidth = 0.6,
-    legendKeyHeight = 0.6,
-    legenPositionType = "outside",
-    legendPosition = "right",
-    legendJustification = "center",
-    legendPositionX = 0.8,
-    legendPositionY = 0.5,
-    legendDirection = "vertical") {
+    binLowerLimit) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("flexhist requires jmvcore to be installed (restart may be required)")
 
-    if ( ! missing(var)) var <- jmvcore::resolveQuo(jmvcore::enquo(var))
-    if ( ! missing(group)) group <- jmvcore::resolveQuo(jmvcore::enquo(group))
+    if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
-            `if`( ! missing(var), var, NULL),
-            `if`( ! missing(group), group, NULL))
+            `if`( ! missing(dep), dep, NULL))
 
-    for (v in group) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- flexhistOptions$new(
-        var = var,
-        group = group,
-        flipAxes = flipAxes,
-        bins = bins,
+        dep = dep,
         binWidthType = binWidthType,
         binWidth = binWidth,
-        binLowerLimit = binLowerLimit,
-        binOpacity = binOpacity,
-        line = line,
-        lineSize = lineSize,
-        density = density,
-        densityOpacity = densityOpacity,
-        densityLineSize = densityLineSize,
-        width = width,
-        height = height,
-        title = title,
-        titleAlign = titleAlign,
-        titleFontSize = titleFontSize,
-        titleFontFace = titleFontFace,
-        subtitle = subtitle,
-        subtitleAlign = subtitleAlign,
-        subtitleFontSize = subtitleFontSize,
-        subtitleFontFace = subtitleFontFace,
-        caption = caption,
-        captionAlign = captionAlign,
-        captionFontSize = captionFontSize,
-        captionFontFace = captionFontFace,
-        xLabel = xLabel,
-        xLabelAlign = xLabelAlign,
-        xLabelFontSize = xLabelFontSize,
-        xLabelFontFace = xLabelFontFace,
-        yLabel = yLabel,
-        yLabelAlign = yLabelAlign,
-        yLabelFontSize = yLabelFontSize,
-        yLabelFontFace = yLabelFontFace,
-        titleType = titleType,
-        yAxisLabelFontSize = yAxisLabelFontSize,
-        yAxisLabelRotation = yAxisLabelRotation,
-        yAxisRangeType = yAxisRangeType,
-        yAxisRangeMin = yAxisRangeMin,
-        yAxisRangeMax = yAxisRangeMax,
-        xAxisLabelFontSize = xAxisLabelFontSize,
-        xAxisLabelRotation = xAxisLabelRotation,
-        xAxisRangeType = xAxisRangeType,
-        xAxisRangeMin = xAxisRangeMin,
-        xAxisRangeMax = xAxisRangeMax,
-        legendTitle = legendTitle,
-        legendTitleFontSize = legendTitleFontSize,
-        legendTitleFontFace = legendTitleFontFace,
-        legendLabelFontSize = legendLabelFontSize,
-        legendLabelFontFace = legendLabelFontFace,
-        legendKeyWidth = legendKeyWidth,
-        legendKeyHeight = legendKeyHeight,
-        legenPositionType = legenPositionType,
-        legendPosition = legendPosition,
-        legendJustification = legendJustification,
-        legendPositionX = legendPositionX,
-        legendPositionY = legendPositionY,
-        legendDirection = legendDirection)
+        binLowerLimit = binLowerLimit)
 
     analysis <- flexhistClass$new(
         options = options,
